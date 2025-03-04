@@ -32,7 +32,7 @@ const parseCSVRecord = (row: string) => {
 };
 
 const loadRecords = () => {
-  const csvPath = path.join(process.cwd(), 'track_field_records.csv');
+  const csvPath = path.join(process.cwd(), 'public', 'track_field_records.csv');
   const fileContent = fs.readFileSync(csvPath, 'utf-8');
   const rows = fileContent.split('\n');
   
