@@ -27,8 +27,7 @@ const normalizeEventName = (distance: string): Event => {
 };
 
 const parseCSVRecord = (row: string) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [distance, recordType, recordTime, athlete, nationality, location, date, event, gender] = row.split(',');
+  const [distance, _recordType, recordTime, athlete, nationality, location, date, event, gender] = row.split(',');
   
   if (gender !== 'Men' && gender !== 'Women') {
     throw new Error(`Invalid gender value: ${gender}`);
