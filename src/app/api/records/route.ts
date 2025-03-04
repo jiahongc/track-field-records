@@ -4,6 +4,18 @@ import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
 import { Event, Gender } from '@/types/records';
 
+// Configure CORS
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+};
+
+// Handle OPTIONS request for CORS
+export async function OPTIONS() {
+  return NextResponse.json({}, { headers: corsHeaders });
+}
+
 const normalizeEventName = (distance: string): Event => {
   // Remove 'k' from distances like '5k' and add 'm'
   const normalized = distance.replace('k', '000m');
@@ -44,24 +56,26 @@ const loadRecords = () => {
 };
 
 export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const event = searchParams.get('event');
-
   try {
+    const { searchParams } = new URL(request.url);
+    const event = searchParams.get('event');
     const records = loadRecords();
     
     if (event) {
       const filteredRecords = records
         .filter(record => record.event === event)
         .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-      return NextResponse.json(filteredRecords);
+      return NextResponse.json(filteredRecords, { headers: corsHeaders });
     }
 
     // If no event specified, return unique events
     const uniqueEvents = Array.from(new Set(records.map(record => record.event)));
-    return NextResponse.json(uniqueEvents);
+    return NextResponse.json(uniqueEvents, { headers: corsHeaders });
   } catch (error) {
     console.error('Error loading records:', error);
-    return NextResponse.json({ error: 'Failed to load records' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to load records' }, 
+      { status: 500, headers: corsHeaders }
+    );
   }
 } 
