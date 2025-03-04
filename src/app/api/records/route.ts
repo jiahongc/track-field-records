@@ -11,7 +11,7 @@ const normalizeEventName = (distance: string): Event => {
 };
 
 const parseCSVRecord = (row: string) => {
-  const [distance, recordType, recordTime, athlete, nationality, location, date, event, gender] = row.split(',');
+  const [distance, _, recordTime, athlete, nationality, location, date, event, gender] = row.split(',');
   
   if (gender !== 'Men' && gender !== 'Women') {
     throw new Error(`Invalid gender value: ${gender}`);
