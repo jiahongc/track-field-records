@@ -4,6 +4,10 @@ import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
 import { Event, Gender } from '@/types/records';
 
+// Configure runtime
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
 // Configure CORS
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
